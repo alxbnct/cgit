@@ -780,6 +780,15 @@ static int emit_css_link(struct string_list_item *s, void *arg)
 	return 0;
 }
 
+static int emit_js_link(struct string_list_item *s, void *arg)
+{
+	html("<script type='text/javascript' src='");
+	html_attr(s->string);
+	html("'></script>\n");
+
+	return 0;
+}
+
 void cgit_print_docstart(void)
 {
 	char *host = cgit_hosturl();
@@ -804,6 +813,8 @@ void cgit_print_docstart(void)
 		for_each_string_list(&ctx.cfg.css, emit_css_link, NULL);
 	else
 		emit_css_link(NULL, "/cgit.css");
+
+	for_each_string_list(&ctx.cfg.js, emit_js_link, NULL);
 
 	if (ctx.cfg.favicon) {
 		html("<link rel='shortcut icon' href='");
