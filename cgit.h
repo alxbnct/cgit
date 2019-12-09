@@ -86,6 +86,7 @@ struct cgit_repo {
 	char *owner;
 	char *homepage;
 	char *defbranch;
+	char *default_page;
 	char *module_link;
 	struct string_list readme;
 	char *section;
@@ -196,6 +197,7 @@ struct cgit_config {
 	char *clone_prefix;
 	char *clone_url;
 	char *css;
+	char *default_page;
 	char *favicon;
 	char *footer;
 	char *head_include;
@@ -210,6 +212,7 @@ struct cgit_config {
 	char *root_title;
 	char *root_desc;
 	char *root_readme;
+	char *root_default_page;
 	char *script_name;
 	char *section;
 	char *repository_sort;

@@ -56,6 +56,8 @@ static void repo_config(struct cgit_repo *repo, const char *name, const char *va
 		repo->homepage = xstrdup(value);
 	else if (!strcmp(name, "defbranch"))
 		repo->defbranch = xstrdup(value);
+	else if (!strcmp(name, "default-page"))
+		repo->default_page = xstrdup(value);
 	else if (!strcmp(name, "extra-head-content"))
 		repo->extra_head_content = xstrdup(value);
 	else if (!strcmp(name, "snapshots"))
@@ -141,6 +143,8 @@ static void config_cb(const char *name, const char *value)
 		ctx.cfg.root_desc = xstrdup(value);
 	else if (!strcmp(name, "root-readme"))
 		ctx.cfg.root_readme = xstrdup(value);
+	else if (!strcmp(name, "root-default-page"))
+		ctx.cfg.root_default_page = xstrdup(value);
 	else if (!strcmp(name, "css"))
 		ctx.cfg.css = xstrdup(value);
 	else if (!strcmp(name, "favicon"))
@@ -155,6 +159,8 @@ static void config_cb(const char *name, const char *value)
 		ctx.cfg.logo = xstrdup(value);
 	else if (!strcmp(name, "logo-link"))
 		ctx.cfg.logo_link = xstrdup(value);
+	else if (!strcmp(name, "default-page"))
+		ctx.cfg.default_page = xstrdup(value);
 	else if (!strcmp(name, "module-link"))
 		ctx.cfg.module_link = xstrdup(value);
 	else if (!strcmp(name, "strict-export"))
@@ -377,6 +383,7 @@ static void prepare_context(void)
 	ctx.cfg.branch_sort = 0;
 	ctx.cfg.commit_sort = 0;
 	ctx.cfg.css = "/cgit.css";
+	ctx.cfg.default_page= "summary";
 	ctx.cfg.logo = "/cgit.png";
 	ctx.cfg.favicon = "/favicon.ico";
 	ctx.cfg.local_time = 0;
@@ -397,6 +404,7 @@ static void prepare_context(void)
 	ctx.cfg.robots = "index, nofollow";
 	ctx.cfg.root_title = "Git repository browser";
 	ctx.cfg.root_desc = "a fast webinterface for the git dscm";
+	ctx.cfg.root_default_page = "repolist";
 	ctx.cfg.scan_hidden_path = 0;
 	ctx.cfg.script_name = CGIT_SCRIPT_NAME;
 	ctx.cfg.section = "";
@@ -806,6 +814,8 @@ static void print_repo(FILE *f, struct cgit_repo *repo)
 	}
 	if (repo->defbranch)
 		fprintf(f, "repo.defbranch=%s\n", repo->defbranch);
+	if (repo->default_page)
+		fprintf(f, "repo.default-page=%s\n", repo->default_page);
 	if (repo->extra_head_content)
 		fprintf(f, "repo.extra-head-content=%s\n", repo->extra_head_content);
 	if (repo->module_link)
