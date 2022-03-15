@@ -419,8 +419,65 @@ typedef struct {
 
 void cgit_prepare_repo_env(struct cgit_repo * repo)
 {
+  char *repo_sec = NULL, *scan_root = ctx.cfg.scan_root, *new_scan_root = NULL;
+  
+  if (scan_root != NULL) {
+    int end = strlen(scan_root) - 1, i = end;
+    if (scan_root[end] == '/') {
+      for (; i >= 0; i--) {
+	if (scan_root[i] == '/')
+	  scan_root[i] = 0;
+	else
+	  break;
+      }
+      scan_root[i+1] = '/';
+    } else {
+      
+      //new_scan_root = (char *) malloc(sizeof(char) + sizeof(scan_root));
+      //m_strcpy(new_scan_root, scan_root);
+      //m_strcat(new_scan_root, '/');
+      //scan_root = new_scan_root;
+      scan_root[end + 1] = '/';
+     }
+    skip_prefix(repo->path, scan_root, &repo_sec);
+
+    // remove the first slash
+    if (repo_sec != NULL && repo_sec[0] == '/')
+      repo_sec = repo_sec + 1;
+  } else {
+    repo_sec = repo->path;
+  }
+
+ 	// remove trailing slash
+  if (repo_sec != NULL) {
+ 	int i_end = strlen(repo_sec) - 1;
+ 	if (repo_sec[i_end] = '/')
+ 	  repo_sec[i_end] = 0;
+  } else {
+    repo_sec = repo->path;
+    int i_end = strlen(repo_sec) - 1;
+    repo_sec[i_end] = 0;
+  }
+
+  //  char *repo_sec = NULL, *tmp = NULL;
+  //  //char repo_name[128] = "/";
+  //  char *repo_name = (char*)calloc(128, 1);
+  //  repo_name[0] = '/';
+  //  concat(repo_name, repo->name);
+  //  concat(repo_name, ".git/");
+  //  skip_prefix(repo->path, repo_name, &repo_sec);
+  //  //int tmp_n = strlen(tmp) - 1;
+  //  //int i = tmp_n;
+  //  //for (; i >= 0; --i) {
+  //  //  if (tmp[i] == '/')
+  //  //    break;
+  //  //}
+  //  //ncpy(repo_sec, tmp + i, tmp_n - i);
+
+
 	cgit_env_var env_vars[] = {
 		{ .name = "CGIT_REPO_URL", .value = repo->url },
+		{ .name = "CGIT_REPO_SEC", .value = repo_sec},
 		{ .name = "CGIT_REPO_NAME", .value = repo->name },
 		{ .name = "CGIT_REPO_PATH", .value = repo->path },
 		{ .name = "CGIT_REPO_OWNER", .value = repo->owner },
@@ -437,6 +494,9 @@ void cgit_prepare_repo_env(struct cgit_repo * repo)
 	for (; p < q; p++)
 		if (p->value && setenv(p->name, p->value, 1))
 			fprintf(stderr, warn, p->name, p->value);
+
+	//if (new_scan_root != NULL)
+	//  free(new_scan_root);
 }
 
 /* Read the content of the specified file into a newly allocated buffer,

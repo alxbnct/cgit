@@ -141,6 +141,8 @@ static void config_cb(const char *name, const char *value)
 		ctx.cfg.root_desc = xstrdup(value);
 	else if (!strcmp(name, "root-readme"))
 		ctx.cfg.root_readme = xstrdup(value);
+	else if (!strcmp(name, "scan-root"))
+	        ctx.cfg.scan_root = xstrdup(value);
 	else if (!strcmp(name, "css"))
 		ctx.cfg.css = xstrdup(value);
 	else if (!strcmp(name, "favicon"))

@@ -76,6 +76,7 @@ CGIT_OBJ_NAMES += html.o
 CGIT_OBJ_NAMES += parsing.o
 CGIT_OBJ_NAMES += scan-tree.o
 CGIT_OBJ_NAMES += shared.o
+CGIT_OBJ_NAMES += utils.o
 CGIT_OBJ_NAMES += ui-atom.o
 CGIT_OBJ_NAMES += ui-blame.o
 CGIT_OBJ_NAMES += ui-blob.o
