@@ -446,17 +446,6 @@ void cgit_prepare_repo_env(struct cgit_repo * repo)
 	if (repo_sec != NULL) {
 		repo_sec = trim_end(repo_sec, '/');
 	}
-	// remove trailing slash
-	//if (repo_sec != NULL) {
-	//	int i_end = strlen(repo_sec) - 1;
-	//	if (repo_sec[i_end] = '/')
-	//		repo_sec[i_end] = 0;
-	//} else {
-	//	repo_sec = repo->path;
-	//	int i_end = strlen(repo_sec) - 1;
-	//	if (repo_sec[i_end] = '/')
-	//		repo_sec[i_end] = 0;
-	//}
 
 	cgit_env_var env_vars[] = {
 		{ .name = "CGIT_REPO_URL", .value = repo->url },
