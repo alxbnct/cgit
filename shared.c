@@ -419,7 +419,7 @@ typedef struct {
 
 void cgit_prepare_repo_env(struct cgit_repo * repo)
 {
-	char *repo_sec = NULL, *scan_root = ctx.cfg.scan_root, *new_scan_root = NULL;
+	char *repo_sec = NULL, *scan_root = ctx.cfg.scan_root;
   
 	if (scan_root != NULL) {
 		int end = strlen(scan_root) - 1, i = end;
@@ -431,15 +431,14 @@ void cgit_prepare_repo_env(struct cgit_repo * repo)
 					break;
 			}
 			scan_root[i+1] = '/';
-		} else {
-      
-			scan_root[end + 1] = '/';
 		}
 		skip_prefix(repo->path, scan_root, &repo_sec);
 
 		// remove the first slash
 		if (repo_sec != NULL && repo_sec[0] == '/')
 			repo_sec = repo_sec + 1;
+		else
+			repo_sec = repo->path;
 	} else {
 		repo_sec = repo->path;
 	}
@@ -452,7 +451,8 @@ void cgit_prepare_repo_env(struct cgit_repo * repo)
 	} else {
 		repo_sec = repo->path;
 		int i_end = strlen(repo_sec) - 1;
-		repo_sec[i_end] = 0;
+		if (repo_sec[i_end] = '/')
+			repo_sec[i_end] = 0;
 	}
 
 	cgit_env_var env_vars[] = {
