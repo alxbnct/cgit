@@ -435,10 +435,10 @@ void cgit_prepare_repo_env(struct cgit_repo * repo)
 		skip_prefix(repo->path, scan_root, &repo_sec);
 
 		// remove the first slash
-		if (repo_sec != NULL && repo_sec[0] == '/')
-			repo_sec = repo_sec + 1;
-		else
+		if (repo_sec == NULL)
 			repo_sec = repo->path;
+		else if (repo_sec[0] == '/')
+			repo_sec = repo_sec + 1;
 	} else {
 		repo_sec = repo->path;
 	}
